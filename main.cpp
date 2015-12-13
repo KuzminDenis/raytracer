@@ -1,5 +1,12 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <qpushbutton.h>
+#include <qapplication.h>
+#include "qlabel.h"
+#include "dialog.h"
+#include "ui_mydialog.h"
+#include <mydialog.h>
+#include <QColorDialog>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,21 +24,10 @@
 
 int main(int argc, char *argv[])
 {
-    World world;
-
-    Render_settings settings;
-
-    Renderer renderer(settings);
-    Tracer tracer(settings);
-    Camera camera(settings);
-
-    renderer.render_image(world, camera, tracer);
-    renderer.save_image(camera);
-
     QApplication a(argc, argv);
-    MainWindow w;
-    w.resize(settings.img_width, settings.img_height);
-    w.show();
+
+    MyDialog * win = new MyDialog();
+    win->show();
 
     return a.exec();
 }

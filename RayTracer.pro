@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     sphere.cpp \
     plane.cpp \
     types.cpp \
-    model.cpp
+    model.cpp \
+    mydialog.cpp
+
 
 HEADERS  += mainwindow.h \
     scene_object.h \
@@ -41,9 +43,11 @@ HEADERS  += mainwindow.h \
     sphere.h \
     plane.h \
     types.h \
-    model.h
+    model.h \
+    mydialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    mydialog.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/FreeImage/release/ -lfreeimage
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/FreeImage/debug/ -lfreeimage

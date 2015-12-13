@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include <qdebug.h>>
 
 Renderer::Renderer() : settings() { }
 
@@ -26,23 +27,24 @@ Ray Renderer::make_ray(Camera &camera, int x, int y)
     return Ray(origin, direction, 1);
 }
 
-void Renderer::render_image(World &world, Camera &camera, Tracer &tracer)
+void Renderer::render_image(World &world, Camera &camera, Tracer &tracer,
+                            Ui::MyDialog * ui)
 {
     omp_set_dynamic(0);
-    omp_set_num_threads(4);
+    omp_set_num_threads(1);
 
     int i = 0, j = 0;
 
 #pragma omp parallel for firstprivate(j) lastprivate(i)
     for (i = 0; i < camera.get_x_resolution(); i++)
     {
+        ui->progressBar->setValue(100*(float)(i+1)/((float)camera.get_x_resolution()));
         for (j = 0; j < camera.get_y_resolution(); j++)
         {
             Ray ray = make_ray(camera, i, j);
             glm::vec3 color = tracer.trace_ray(ray, world, camera);
             camera.set_pixel(i, j, color);
         }
-    //std::cout << "i = " << i << std::endl;
     }
 }
 

@@ -23,6 +23,8 @@ struct Render_settings
     int rays_per_pixel;
 
     Render_settings();
+
+    Render_settings(int heig,int widt,unsigned int level,float angle,std::string name, glm::vec3 color,glm::vec3 pos,glm::vec3 dire_f,glm::vec3 dire_up);
 };
 
 struct Material

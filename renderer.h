@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <omp.h>
+#include "ui_mydialog.h"
 
 #include "lib/glm/glm/glm.hpp"
 #include "lib/FreeImage/Source/FreeImage.h"
@@ -27,7 +28,8 @@ public:
                                                 // on image plane
 
     // store an image of the world into camera's .picture matrix
-    void render_image(World &world, Camera &camera, Tracer &tracer);
+    void render_image(World &world, Camera &camera, Tracer &tracer,
+                      Ui::MyDialog * ui);
 
     // save camera's .picture matrix into file
     void save_image(Camera &camera);

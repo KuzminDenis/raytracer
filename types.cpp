@@ -18,6 +18,21 @@ Render_settings::Render_settings()
     rays_per_pixel = 16;
 }
 
+Render_settings::Render_settings(int heig,int widt,unsigned int level,float angle,std::string name,glm::vec3 color,glm::vec3 pos,glm::vec3 dire_f,glm::vec3 dire_up)
+{
+    //file_name = "../render.png";
+    file_name=name;
+    img_width = widt;
+    img_height=heig;
+    max_level = level;
+    environment_color = color;
+
+    camera_position = pos;
+    camera_direction_forward = dire_f;
+    camera_direction_upward = dire_up;
+    camera_view_angle = M_PI * angle  / 180;
+}
+
 Material::Material()
 {
     ambient_color = glm::vec3(0, 0, 255);
