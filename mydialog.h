@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QColorDialog>
 #include "lib/glm/glm/glm.hpp"
+#include "renderer.h"
 namespace Ui {
 class MyDialog;
 }
@@ -29,6 +30,7 @@ private:
     QColorDialog *colorDialog;
     QMainWindow *app;
     MainWindow *testwindow;
+    Renderer *renderer;
 };
 
 #endif // MYDIALOG_H

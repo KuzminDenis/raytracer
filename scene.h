@@ -23,15 +23,15 @@ public:
 
     Scene();
 
-    unsigned int get_objects_count() { return objects.size(); }
-    Scene_object* get_object(unsigned int object_id)
+    int get_objects_count() { return objects.size(); }
+    Scene_object* get_object(int object_id)
     {
         return objects[object_id];
     }
 
     std::vector <Light_source*> get_all_lights() { return lights; }
-    unsigned int get_lights_count() { return lights.size(); }
-    Light_source* get_light(unsigned int light_id) { return lights[light_id]; }
+    int get_lights_count() { return lights.size(); }
+    Light_source* get_light(int light_id) { return lights[light_id]; }
 };
 
 #endif // SCENE_H

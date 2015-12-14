@@ -19,10 +19,15 @@ class Renderer
 {
     Render_settings settings;
 
+    static Renderer* _instance;
+
+protected:
+
+    Renderer(Render_settings settings_p);
+
 public:
 
-    Renderer();
-    Renderer(Render_settings settings_p);
+    static Renderer *Instance(Render_settings settings_p = Render_settings());
 
     Ray make_ray(Camera &camera, int x, int y); // from camera to (x,y) pixel
                                                 // on image plane
@@ -33,6 +38,11 @@ public:
 
     // save camera's .picture matrix into file
     void save_image(Camera &camera);
+
+    void update_settings(Render_settings settings_p)
+    {
+        settings = settings_p;
+    }
 };
 
 #endif // RENDERER_H

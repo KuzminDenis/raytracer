@@ -5,24 +5,19 @@ Tracer::Tracer(Render_settings settings_p) : settings(settings_p) { }
 
 bool Tracer::trace_shadow_ray(Ray &ray, World &world, float light_distance)
 {
-    unsigned int scenes_count = world.get_scenes_count();
-    for (unsigned int scene_id = 0; scene_id < scenes_count; scene_id++)
+    WorldIterator iterator(world);
+    iterator.init();
+    while (!iterator.done())
     {
-        Scene *scene = world.get_scene(scene_id);
-        unsigned int objects_count = scene->get_objects_count();
-
-        for (unsigned int object_id = 0; object_id < objects_count;
-             object_id++)
+        Scene_object *object = iterator.get_object();
+        bool object_intersection =
+                object->is_intersected(ray, light_distance);
+        if (object_intersection)
         {
-            Scene_object *object = scene->get_object(object_id);
-
-            bool object_intersection =
-                    object->is_intersected(ray, light_distance);
-            if (object_intersection)
-            {
-                return true;
-            }
+            return true;
         }
+
+        iterator.next();
     }
 
     return false;
@@ -156,28 +151,23 @@ Intersection_info Tracer::find_closest_intersection(Ray &ray, World &world)
 
     float minimal_distance = 99999.0;
 
-    unsigned int scenes_count = world.get_scenes_count();
-    // iterate through all scenes in the world
-    for (unsigned int scene_id = 0; scene_id < scenes_count; scene_id++)
+    WorldIterator iterator(world);
+    iterator.init();
+    while (!iterator.done())
     {
-        Scene *scene = world.get_scene(scene_id);
-        unsigned int objects_count = scene->get_objects_count();
+        Scene_object *object = iterator.get_object();
 
-        // iterate through all objects in the scene
-        for (unsigned int object_id = 0; object_id < objects_count;
-             object_id++)
+        Intersection_info object_intersection = object->intersection(ray);
+
+        if (object_intersection.is_intersected &&
+            object_intersection.distance > 0.0f &&
+            object_intersection.distance < minimal_distance)
         {
-            Scene_object *object = scene->get_object(object_id);
-            Intersection_info object_intersection = object->intersection(ray);
-
-            if (object_intersection.is_intersected &&
-                object_intersection.distance > 0.0f &&
-                object_intersection.distance < minimal_distance)
-            {
-                minimal_distance = object_intersection.distance;
-                closest_intersection = object_intersection;
-            }
+            minimal_distance = object_intersection.distance;
+            closest_intersection = object_intersection;
         }
+
+        iterator.next();
     }
 
     return closest_intersection;

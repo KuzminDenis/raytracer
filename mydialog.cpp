@@ -38,7 +38,6 @@ MyDialog::MyDialog(QWidget *parent) :
     color = glm::vec3(0, 0, 0);
     connect(ui->rend, SIGNAL(click()), this, SLOT(on_rend_clicked()));
     connect(ui->pushButton, SIGNAL(click()), this, SLOT(on_pushButton_clicked()));
-
 }
 
 MyDialog::~MyDialog()
@@ -48,8 +47,6 @@ MyDialog::~MyDialog()
 
 void MyDialog::on_rend_clicked()
 {
-
-
     ui->label_7->setText("Rendering...Please wait");
     World world;
     int hei=ui->spinBox->value();
@@ -71,14 +68,12 @@ void MyDialog::on_rend_clicked()
     glm::vec3 camera_dir_upw = glm::vec3(a1, a2, a3);
     Render_settings settings=Render_settings(hei,wid,lev,(float)angle,name,color,camera_pos,camera_dir_for,camera_dir_upw);
 
-    Renderer renderer(settings);
+    renderer = Renderer::Instance(settings);
     Tracer tracer(settings);
     Camera camera(settings);
 
-
-
-    renderer.render_image(world, camera, tracer,ui);
-    renderer.save_image(camera);
+    renderer->render_image(world, camera, tracer,ui);
+    renderer->save_image(camera);
     ui->label_7->setText("Image successfully saved!");
 
     testwindow->show();

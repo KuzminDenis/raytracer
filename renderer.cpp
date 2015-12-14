@@ -1,7 +1,15 @@
 #include "renderer.h"
-#include <qdebug.h>>
+#include <qdebug.h>
 
-Renderer::Renderer() : settings() { }
+Renderer* Renderer::_instance = NULL;
+
+Renderer* Renderer::Instance(Render_settings settings_p)
+{
+    if (_instance == NULL)
+        _instance = new Renderer(settings_p);
+
+    return _instance;
+}
 
 Renderer::Renderer(Render_settings settings_p) :
     settings(settings_p) { }
