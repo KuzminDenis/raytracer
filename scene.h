@@ -12,7 +12,6 @@
 #include "scene_object.h"
 #include "sphere.h"
 #include "plane.h"
-#include "model.h"
 
 class Scene
 {

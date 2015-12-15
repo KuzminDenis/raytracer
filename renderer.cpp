@@ -43,16 +43,21 @@ void Renderer::render_image(World &world, Camera &camera, Tracer &tracer,
 
     int i = 0, j = 0;
 
+    int cols_processed = 0;
 #pragma omp parallel for firstprivate(j) lastprivate(i)
+
     for (i = 0; i < camera.get_x_resolution(); i++)
     {
-        ui->progressBar->setValue(100*(float)(i+1)/((float)camera.get_x_resolution()));
+        ui->progressBar->setValue(100 * (float)(cols_processed+1) /
+                                  ((float) camera.get_x_resolution()) );
+
         for (j = 0; j < camera.get_y_resolution(); j++)
         {
             Ray ray = make_ray(camera, i, j);
             glm::vec3 color = tracer.trace_ray(ray, world, camera);
             camera.set_pixel(i, j, color);
         }
+        cols_processed++;
     }
 }
 

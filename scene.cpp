@@ -113,12 +113,6 @@ Scene::Scene()
     sph = new Sphere(glm::vec3(2, -1, 4), 1.25f, material6);
     objects.push_back(sph);
 
-//    Model *mdl = new Model("models/Teapot.3ds",
-//                           glm::vec3(3,3,3),
-//                           glm::vec3(0,0,0),
-//                           glm::vec3(0,0,0));
-//    objects.push_back(mdl);
-
     // LIGHTS
 
     lights.clear();
