@@ -3,12 +3,16 @@
 
 #include "types.h"
 
+#include <iostream>
+
 #include "scene.h"
 #include "scene_object.h"
 #include "light_source.h"
 
 class World
 {
+    Scene_builder *builder;
+
     std::vector <Scene*> scenes;
     std::vector <Light_source*> lights;
 
@@ -22,19 +26,21 @@ public:
     Light_source *get_light(int light_id) { return lights[light_id]; }
     int get_lights_count() { return lights.size(); }
 
+    void add_scene(glm::vec3 scene_center, int object_count, int mode);
+
     ~World() { }
 };
 
 class WorldIterator
 {
-    World world;
+    World *world;
 
     int current_scene;
     int current_object;
 
 public:
 
-    WorldIterator(World &world_p)
+    WorldIterator(World *world_p)
     {
         world = world_p;
     }

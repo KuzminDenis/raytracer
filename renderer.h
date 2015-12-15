@@ -33,7 +33,7 @@ public:
                                                 // on image plane
 
     // store an image of the world into camera's .picture matrix
-    void render_image(World &world, Camera &camera, Tracer &tracer,
+    void render_image(World *world, Camera &camera, Tracer &tracer,
                       Ui::MyDialog * ui);
 
     // save camera's .picture matrix into file

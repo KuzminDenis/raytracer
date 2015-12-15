@@ -8,6 +8,7 @@
 #include <mydialog.h>
 #include <QColorDialog>
 
+#include <ctime>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,9 +25,18 @@
 
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
+
+    World *world = new World();
+
+    world->add_scene(glm::vec3(-1,0, 0), 3, 0);
+    world->add_scene(glm::vec3(-2,-5, -3), 3, 1);
+    world->add_scene(glm::vec3(1,-5, 2), 5, 0);
+    world->add_scene(glm::vec3(-5, -6, 0), 3, 0);
+
     QApplication a(argc, argv);
 
-    MyDialog * win = new MyDialog();
+    MyDialog * win = new MyDialog(world);
     win->show();
 
     return a.exec();

@@ -3,7 +3,7 @@
 Tracer::Tracer() : settings() { }
 Tracer::Tracer(Render_settings settings_p) : settings(settings_p) { }
 
-bool Tracer::trace_shadow_ray(Ray &ray, World &world, float light_distance)
+bool Tracer::trace_shadow_ray(Ray &ray, World *world, float light_distance)
 {
     WorldIterator iterator(world);
     iterator.init();
@@ -24,7 +24,7 @@ bool Tracer::trace_shadow_ray(Ray &ray, World &world, float light_distance)
 }
 
 glm::vec3 Tracer::trace_reflection(Intersection_info info,
-                                   Ray &ray, World &world, Camera &camera)
+                                   Ray &ray, World *world, Camera &camera)
 {
     float scalar = glm::dot(ray.get_direction(), info.normal);
     scalar *= -2;
@@ -40,7 +40,7 @@ glm::vec3 Tracer::trace_reflection(Intersection_info info,
 }
 
 glm::vec3 Tracer::contribution_by_light(Intersection_info &intersection,
-                                        World &world, Camera &camera,
+                                        World *world, Camera &camera,
                                         Light_source *light)
 {
 //    glm::vec3 ambient_color = intersection.material.ambient_color;
@@ -110,9 +110,9 @@ glm::vec3 Tracer::contribution_by_light(Intersection_info &intersection,
 }
 
 glm::vec3 Tracer::apply_lightning(Intersection_info &intersection,
-                                  World &world, Camera &camera)
+                                  World *world, Camera &camera)
 {
-    unsigned int lights_count = world.get_lights_count();
+    unsigned int lights_count = world->get_lights_count();
     float coeff;
     if (lights_count > 0)
         coeff = 1.0f / lights_count;
@@ -126,7 +126,7 @@ glm::vec3 Tracer::apply_lightning(Intersection_info &intersection,
     // iterate through all the lights in the world
     for (unsigned int light_id = 0; light_id < lights_count; light_id++)
     {
-        Light_source* light = world.get_light(light_id);
+        Light_source* light = world->get_light(light_id);
         glm::vec3 color = contribution_by_light(intersection, world, camera,
                                                 light);
         result_color += coeff * color;
@@ -145,7 +145,7 @@ void Tracer::fix_color(glm::vec3 &color)
         color.z = 255;
 }
 
-Intersection_info Tracer::find_closest_intersection(Ray &ray, World &world)
+Intersection_info Tracer::find_closest_intersection(Ray &ray, World *world)
 {
     Intersection_info closest_intersection; // initialized by constructor
 
@@ -173,7 +173,7 @@ Intersection_info Tracer::find_closest_intersection(Ray &ray, World &world)
     return closest_intersection;
 }
 
-glm::vec3 Tracer::trace_ray(Ray &ray, World &world, Camera &camera)
+glm::vec3 Tracer::trace_ray(Ray &ray, World *world, Camera &camera)
 {
     if (ray.get_level() > settings.max_level)
         return settings.environment_color;

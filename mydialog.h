@@ -15,7 +15,7 @@ class MyDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit MyDialog(QWidget *parent = 0);
+    explicit MyDialog(World *world_p, QWidget *parent = 0);
     ~MyDialog();
 
 private slots:
@@ -31,6 +31,7 @@ private:
     QMainWindow *app;
     MainWindow *testwindow;
     Renderer *renderer;
+    World *world;
 };
 
 #endif // MYDIALOG_H

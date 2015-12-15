@@ -28,7 +28,7 @@
 #include "camera.h"
 #include "tracer.h"
 
-MyDialog::MyDialog(QWidget *parent) :
+MyDialog::MyDialog(World *world_p, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MyDialog)
 {
@@ -37,7 +37,9 @@ MyDialog::MyDialog(QWidget *parent) :
         ui->setupUi(this);
     color = glm::vec3(0, 0, 0);
     connect(ui->rend, SIGNAL(click()), this, SLOT(on_rend_clicked()));
-    connect(ui->pushButton, SIGNAL(click()), this, SLOT(on_pushButton_clicked()));
+    connect(ui->pushButton, SIGNAL(click()), this,
+            SLOT(on_pushButton_clicked()));
+    world = world_p;
 }
 
 MyDialog::~MyDialog()
@@ -48,7 +50,7 @@ MyDialog::~MyDialog()
 void MyDialog::on_rend_clicked()
 {
     ui->label_7->setText("Rendering...Please wait");
-    World world;
+    //World world;
     int hei=ui->spinBox->value();
     int wid=ui->spinBox_2->value();
     int lev=ui->spinBox_3->value();
@@ -66,7 +68,9 @@ void MyDialog::on_rend_clicked()
     a2=ui->textEdit_8->toPlainText().toInt();
     a3=ui->textEdit_9->toPlainText().toInt();
     glm::vec3 camera_dir_upw = glm::vec3(a1, a2, a3);
-    Render_settings settings=Render_settings(hei,wid,lev,(float)angle,name,color,camera_pos,camera_dir_for,camera_dir_upw);
+    Render_settings settings =
+            Render_settings(hei,wid,lev,(float)angle,name,color,
+                            camera_pos,camera_dir_for,camera_dir_upw);
 
     renderer = Renderer::Instance(settings);
     Tracer tracer(settings);

@@ -35,7 +35,7 @@ Ray Renderer::make_ray(Camera &camera, int x, int y)
     return Ray(origin, direction, 1);
 }
 
-void Renderer::render_image(World &world, Camera &camera, Tracer &tracer,
+void Renderer::render_image(World *world, Camera &camera, Tracer &tracer,
                             Ui::MyDialog * ui)
 {
     omp_set_dynamic(0);
